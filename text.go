@@ -68,6 +68,10 @@ func (this *Client) Antispam(text string) (*AntispamResult, error) {
 	}
 	responseData := responseStruct.Data[0]
 
+	if responseData.Code == 586 {
+		return nil, &AlgoFailed{Body: responseData.Message}
+	}
+
 	if responseData.Code != 200 {
 		return nil, &ErrorResponse{StatusCode: responseData.Code, Body: responseData.Message}
 	}
