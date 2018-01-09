@@ -22,10 +22,6 @@ type ErrorResponse struct {
 	Body       string
 }
 
-type AlgoFailed struct {
-	Body string
-}
-
 func (this *Client) Post(path string, data map[string]interface{}) (*http.Response, error) {
 	body, err := json.Marshal(data)
 	if err != nil {
@@ -68,8 +64,4 @@ func (this *Client) serializeHeader(header http.Header) string {
 
 func (this *ErrorResponse) Error() string {
 	return fmt.Sprintf("AliyunGreen response with %d status, body: %s", this.StatusCode, this.Body)
-}
-
-func (this *AlgoFailed) Error() string {
-	return fmt.Sprintf("AliyunGreen response with body: %s", this.Body)
 }

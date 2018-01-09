@@ -28,6 +28,8 @@ type AntispamResponseData struct {
 	Results []*AntispamResult     `json:"results"`
 }
 
+var ErrAlgoFailed = errors.New("Aliyun AlgoFail")
+
 func (this *Client) Antispam(text string) (*AntispamResult, error) {
 	data := map[string]interface{}{
 		"scenes": []string{"antispam"},
@@ -69,7 +71,7 @@ func (this *Client) Antispam(text string) (*AntispamResult, error) {
 	responseData := responseStruct.Data[0]
 
 	if responseData.Code == 586 {
-		return nil, &AlgoFailed{Body: responseData.Message}
+		return nil, ErrAlgoFailed
 	}
 
 	if responseData.Code != 200 {
